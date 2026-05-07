@@ -8,10 +8,11 @@ import { isRightButton } from './util.js';
 type MouchBind = (e: cg.MouchEvent) => void;
 type StateMouchBind = (d: State, e: cg.MouchEvent) => void;
 
-export function bindBoard(s: State, onResize: () => void): void {
+// binds events to managed nodes,
+// i.e. nodes that can be created and deleted by chessground.
+// Unbinding these is not necessary, as they will be garbage collected with the nodes.
+export function bindBoard(s: State): void {
   const boardEl = s.dom.elements.board;
-
-  if ('ResizeObserver' in window) new ResizeObserver(onResize).observe(s.dom.elements.wrap);
 
   if (s.disableContextMenu || s.drawable.enabled) {
     boardEl.addEventListener('contextmenu', e => e.preventDefault());
@@ -30,13 +31,20 @@ export function bindBoard(s: State, onResize: () => void): void {
   });
 }
 
-// returns the unbind function
+// binds events to unmanaged nodes, i.e. the document around chessground,
+// and the wrap element on which chessground was applied.
+// returns the unbind function so chessground can clean up on destroy.
 export function bindDocument(s: State, onResize: () => void): cg.Unbind {
   const unbinds: cg.Unbind[] = [];
 
+  if ('ResizeObserver' in window) {
+    const ro = new ResizeObserver(onResize);
+    ro.observe(s.dom.elements.wrap);
+    unbinds.push(() => ro.disconnect());
+  }
   // Old versions of Edge and Safari do not support ResizeObserver. Send
   // chessground.resize if a user action has changed the bounds of the board.
-  if (!('ResizeObserver' in window)) unbinds.push(unbindable(document.body, 'chessground.resize', onResize));
+  else unbinds.push(unbindable(document.body, 'chessground.resize', onResize));
 
   if (!s.viewOnly) {
     const onmove = dragOrDraw(s, drag.move, draw.move);
