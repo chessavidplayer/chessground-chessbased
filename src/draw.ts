@@ -139,10 +139,21 @@ export const sameEndpoints = (s1: DrawShape, s2: DrawShape) => s1.orig === s2.or
 
 export const sameColor = (s1: DrawShape, s2: DrawShape) => s1.brush === s2.brush;
 
+/**
+ * Modified for Chessbase-style colors:
+ * Shift+Alt -> Yellow
+ * Shift     -> Red
+ * Ctrl      -> Blue
+ * Alt       -> Green
+ */
 function eventBrush(e: cg.MouchEvent): cg.BrushColor {
-  const modA = (e.shiftKey || e.ctrlKey) && isRightButton(e);
-  const modB = e.altKey || e.metaKey || e.getModifierState?.('AltGraph');
-  return brushes[(modA ? 1 : 0) + (modB ? 2 : 0)];
+  if (e.shiftKey && (e.altKey || e.metaKey)) return 'yellow';
+  if (e.shiftKey) return 'red';
+  if (e.ctrlKey) return 'blue';
+  if (e.altKey || e.metaKey) return 'green';
+  
+  // Default for right-click with no modifiers
+  return 'green';
 }
 
 function addShape(drawable: Drawable, cur: DrawCurrent): void {
