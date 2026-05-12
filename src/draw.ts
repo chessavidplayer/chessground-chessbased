@@ -1,7 +1,7 @@
 import { cancelMove, getKeyAtDomPos, getSnappedKeyAtDomPos, unselect, whitePov } from './board.js';
 import { type State } from './state.js';
 import type * as cg from './types.js';
-import { eventPosition, isRightButton } from './util.js';
+import { eventPosition } from './util.js';
 
 export interface DrawShape {
   orig: cg.Key;
@@ -61,8 +61,6 @@ export interface DrawCurrent {
   brush: cg.BrushColor; // brush name for shape
   snapToValidMove: boolean; // whether to snap to valid piece moves
 }
-
-const brushes: cg.BrushColor[] = ['green', 'red', 'blue', 'yellow'];
 
 export function start(state: State, e: cg.MouchEvent): void {
   // support one finger touch only
