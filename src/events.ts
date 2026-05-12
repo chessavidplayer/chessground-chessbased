@@ -77,7 +77,12 @@ const startDragOrDraw =
   e => {
     if (s.draggable.current) drag.cancel(s);
     else if (s.drawable.current) draw.cancel(s);
-    else if (e.shiftKey || isRightButton(e)) {
+    /** * Modified for Chessbase-style interaction:
+     * We allow drawing if:
+     * 1. It is a right-click (isRightButton)
+     * 2. Any modifier key is held down (Shift, Ctrl, Alt/Option, or Meta/Cmd)
+     */
+    else if (isRightButton(e) || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) {
       if (s.drawable.enabled) draw.start(s, e);
     } else if (!s.viewOnly) {
       if (s.dropmode.active) drop(s, e);
