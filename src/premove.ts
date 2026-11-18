@@ -42,9 +42,9 @@ export function premove(state: HeadlessState, key: cg.Key): cg.Key[] {
       orig,
       role: piece.role,
       allPieces: pieces,
-      friendlies: friendlies,
-      enemies: enemies,
-      color: color,
+      friendlies,
+      enemies,
+      color,
       rookFilesFriendlies: Array.from(pieces)
         .filter(
           ([k, p]) => k[1] === (color === 'white' ? '1' : '8') && p.color === color && p.role === 'rook',

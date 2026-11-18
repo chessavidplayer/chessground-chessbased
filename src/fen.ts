@@ -3,7 +3,7 @@ import { invRanks, pos2key } from './util.js';
 
 export const initial: cg.FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR';
 
-const roles: { [letter: string]: cg.Role } = {
+const roles: Record<string, cg.Role> = {
   p: 'pawn',
   r: 'rook',
   n: 'knight',

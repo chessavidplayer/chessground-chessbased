@@ -40,9 +40,9 @@ interface AnimPiece {
 type AnimPieces = Map<cg.Key, AnimPiece>;
 
 const makePiece = (key: cg.Key, piece: cg.Piece): AnimPiece => ({
-  key: key,
+  key,
   pos: util.key2pos(key),
-  piece: piece,
+  piece,
 });
 
 const closer = (piece: AnimPiece, pieces: AnimPiece[]): AnimPiece | undefined =>
@@ -87,8 +87,8 @@ function computePlan(prevPieces: cg.Pieces, current: State): AnimPlan {
   }
 
   return {
-    anims: anims,
-    fadings: fadings,
+    anims,
+    fadings,
   };
 }
 
@@ -125,7 +125,7 @@ function animate<A>(mutation: Mutation<A>, state: State): A {
     state.animation.current = {
       start: performance.now(),
       frequency: 1 / state.animation.duration,
-      plan: plan,
+      plan,
     };
     if (!alreadyRunning) step(state, performance.now());
   } else {

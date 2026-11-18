@@ -1,6 +1,6 @@
 # Chessground
 
-[![Continuous Integration](https://github.com/lichess-org/chessground/workflows/Continuous%20Integration/badge.svg)](https://github.com/lichess-org/chessground/actions?query=workflow%3A%22Continuous+Integration%22)
+[![Continuous Integration](https://github.com/lichess-org/chessground/actions/workflows/ci.yml/badge.svg)](https://github.com/lichess-org/chessground/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/@lichess-org/chessground)](https://www.npmjs.com/package/@lichess-org/chessground)
 
 ![Chessground in 2D and 3D](/screenshot/twin.jpg)
@@ -118,6 +118,10 @@ pnpm test:watch
 ```
 
 ## Release procedure
+
+```sh
+gh workflow run release --field version=vX.Y.Z
+```
 
 - https://github.com/lichess-org/chessground/actions/workflows/release.yaml
 - [Run workflow]
